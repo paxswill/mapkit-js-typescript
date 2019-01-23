@@ -1,15 +1,19 @@
-// Type definitions for MapKit JS 5.11.5
+// Type definitions for MapKit JS 5.13.0
 // Definitions by: Jon Nermut <asdeqlabs.com>, Will Ross <paxswill.com>
 
 export as namespace mapkit
 
+/** Initialize a mapkit object by providing an authorization callback and language. */
 function init(options: MapKitInitOptions): void;
 
+/** Subscribes a listener function to an event type. */
 function addEventListener(type: string, listener: (Event) => void, thisObject?: any)
 
+/** Unsubscribes a listener function from an event type. */
 function removeEventListener(type: string, listener: (Event) => void, thisObject?: any)
 
 type AuthorizationDoneCallback = (jwt: (string)) => void
+type maps = [Map]
 
 interface MapKitInitOptions
 {
@@ -45,19 +49,6 @@ class Coordinate
     toUnwrappedMapPoint(): MapPoint
 }
 
-enum MapType
-{
-    /** A satellite image of the area with road and road name information layered on top. */
-    Hybrid = 'Hybrid',
-
-    /** Satellite imagery of the area. */
-    Satellite = 'Satellite',
-
-    /** A street map that shows the position of all roads and some road names. */
-    Standard = 'Standard'
-
-}
-
 interface MapConstructorOptions
 {
     /** The visible area of the map defined in map units.  */
@@ -75,8 +66,11 @@ interface MapConstructorOptions
     /** The CSS color that is used to paint the user interface controls on the map. */
     tintColor?: string
 
+    /** The map’s color scheme when displaying standard or muted standard map types. */
+    colorScheme?: Map.ColorSchemes
+
     /** The type of data displayed by the map view. */
-    mapType?: MapType
+    mapType?: Map.MapTypes
 
     /** The map's inset margins. */
     padding?: Padding
@@ -178,8 +172,14 @@ class Map
     /** Changes the map's visible map rectangle to the specified map rectangle. */
     setVisibleMapRectAnimated(mapRect: MapRect, animate?: boolean): Map;
 
+    /** The map’s color scheme when displaying standard or muted standard map types. */
+    colorScheme: Map.ColorSchemes
+
+    /** The system of measurement displayed on the map. */
+    distances: Map.Distances
+
     /** The type of data displayed by the map view. */
-    mapType: MapType
+    mapType: Map.MapTypes
 
     /** The map's inset margins. */
     padding: Padding
@@ -205,7 +205,7 @@ class Map
     /** The CSS color that is used to paint the user interface controls on the map. */
     tintColor: string
 
-    /** Adjusts the maps visible region to bring the specified overlays and annotations into view. */
+    /** Adjusts the map's visible region to bring the specified overlays and annotations into view. */
     showItems(items: (Annotation|Overlay)[], options?: MapShowItemsOptions );
 
     /** A delegate method for modifying cluster annotations. */
@@ -291,7 +291,45 @@ class Map
 
     /** The map's DOM element. */
     element: Element
+}
 
+namespace Map {
+    enum MapTypes
+    {
+        /** A satellite image of the area with road and road name information layered on top. */
+        Hybrid = 'Hybrid',
+
+        /** Satellite imagery of the area. */
+        Satellite = 'Satellite',
+
+        /** A street map that shows the position of all roads and some road names. */
+        Standard = 'Standard',
+
+        /** In this style, map features are less prominent, which allows user features such as annotations and overlays to stand out by comparison. */
+        MutedStandard = 'MutedStandard'
+
+    }
+
+    enum ColorSchemes
+    {
+        /** A constant indicating a light color scheme. */
+        Light = 'Light',
+
+        /** A constant indicating a dark color scheme. */
+        Dark = 'Dark'
+    }
+
+    enum Distances
+    {
+        /** A constant indicating the measurement system is adaptive, and determined based on the map's language. */
+        Adaptive = 'Adaptive',
+
+        /** A constant indicating the measurement system is metric. */
+        Metric = 'Metric',
+
+        /** A constant indicating the measurement system is imperial. */
+        Imperial = 'Imperial'
+    }
 }
 
 
