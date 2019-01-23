@@ -12,7 +12,6 @@ function addEventListener(type: string, listener: (Event) => void, thisObject?: 
 /** Unsubscribes a listener function from an event type. */
 function removeEventListener(type: string, listener: (Event) => void, thisObject?: any)
 
-type AuthorizationDoneCallback = (jwt: (string)) => void
 type maps = [Map]
 
 interface MapKitInitOptions
@@ -21,7 +20,7 @@ interface MapKitInitOptions
      * The callback function MapKit JS will invoke to asynchronously obtain an authorization token.
      * authorizationCallback will be invoked by MapKit JS throughout a session and should be prepared to obtain a new token and pass it to the done function, which will be provided my MapKit JS as the sole argument each time the authorizationCallback function is called.
      */
-    authorizationCallback: (done: AuthorizationDoneCallback) => void;
+    authorizationCallback: (done: (jwt: (string)) => void) => void;
 
     language?: string
 }
