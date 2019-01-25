@@ -510,7 +510,7 @@ interface AnnotationConstructorOptions
     displayPriority?: number
 
     /** The desired dimensions of the annotation, in CSS pixels. */
-    size?: any
+    size?: { height: number, width: number }
 
     /** A Boolean value that determines if the annotation is visible or hidden. */
     visible?: boolean
@@ -539,7 +539,7 @@ interface AnnotationConstructorOptions
 
     clusteringIdentifier?: string
 
-    collisionMode?: string
+    collisionMode?: Annotation.CollisionMode
 
     accessibilityLabel?: string
 }
@@ -573,7 +573,7 @@ class Annotation
     appearanceAnimation: string
     displayPriority: number
 
-    size: any
+    size: { height: number, width: number }
 
     visible: boolean
 
@@ -595,9 +595,47 @@ class Annotation
 
     memberAnnotations: Annotation[]
     clusteringIdentifier: string
-    collisionMode: string
+    collisionMode: Annotation.CollisionMode
 
     accessibilityLabel: string
+}
+
+declare namespace Annotation {
+    /** Constant values used to provide a hint the map uses to prioritize displaying annotations. */
+    enum DisplayPriority
+    {
+        /** A low display priority, with a preset value of 250 out of 1000. */
+        Low = 250,
+
+        /** A high display priority, with a preset value of 750 out of 1000. */
+        High = 750,
+
+        /** The highest display priority, with a preset value of 1000 out of 1000. */
+        Required = 1000
+    }
+
+    /** Constants indicating how to interpret the collision frame rectangle of an annotation view. */
+    enum CollisionMode
+    {
+        /** A constant indicating that a circle inscribed in the collision frame rectangle should be used to determine collisions. */
+        Circle = 'Circle',
+
+        /** A constant indicating that the full collision rectangle should be used for detecting collisions. */
+        Rectangle = 'Rectangle'
+    }
+}
+
+/** An object with URLs to images to be shown at standard, 2x, and 3x Retina screen types */
+interface _DisplayAsset
+{
+    /** A URL to an image shown at standard screen densities. The dimensions should be 20 x 20 pixels. */
+    1: string,
+
+    /** An optional URL to be shown at 2x screen densities. The dimensions should be 40 x 40 pixels. */
+    2?: string,
+
+    /** An optional URL to be shown at 3x screen densities. The dimensions should be 60 x 60 pixels. */
+    3?: string,
 }
 
 class MarkerAnnotation extends Annotation
@@ -611,13 +649,13 @@ class MarkerAnnotation extends Annotation
     glyphColor: string
 
     /** The images to display in the marker. */
-    glyphImage: any
+    glyphImage: _DisplayAsset
 
     /** The text to display in the marker. */
     glyphText: string
 
     /** The images to display in the balloon when the user selects the annotation. */
-    selectedGlyphImage: any
+    selectedGlyphImage: _DisplayAsset
 
     /** A value that determines when the subtitle is visible. */
     subtitleVisibility: FeatureVisibility
@@ -635,13 +673,13 @@ interface MarkerAnnotationConstructorOptions extends AnnotationConstructorOption
     glyphColor?: string
 
     /** The images to display in the marker. */
-    glyphImage?: any
+    glyphImage?: _DisplayAsset
 
     /** The text to display in the marker. */
     glyphText?: string
 
     /** The images to display in the balloon when the user selects the annotation. */
-    selectedGlyphImage?: any
+    selectedGlyphImage?: _DisplayAsset
 
     /** A value that determines when the subtitle is visible. */
     subtitleVisibility?: FeatureVisibility
@@ -664,7 +702,7 @@ class ImageAnnotation extends Annotation
      *          3: "foo_3x.png"
      *     }
     */
-    url: any
+    url: _DisplayAsset
 }
 
 interface ImageAnnotationConstructorOptions extends AnnotationConstructorOptions
@@ -677,7 +715,7 @@ interface ImageAnnotationConstructorOptions extends AnnotationConstructorOptions
      *          3: "foo_3x.png"
      *     }
     */
-    url: any
+    url: _DisplayAsset
 }
 
 enum FeatureVisibility
