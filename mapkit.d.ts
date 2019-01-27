@@ -103,19 +103,19 @@ interface MapConstructorOptions
     showsScale?: FeatureVisibility
 
     /** A delegate method for modifying cluster annotations. */
-    annotationForCluster?: Annotation
+    annotationForCluster?: (clusterAnnotation: Annotation) => void | Annotation
 
     /** An array of all the annotations on the map. */
     annotations?: Annotation[]
 
     /** The annotation on the map that is selected. */
-    selectedAnnotation?: Annotation|null
+    selectedAnnotation?: Annotation
 
     /** An array of all of the map's overlays. */
     overlays?: Overlay[]
 
     /** The overlay on the map that is selected. */
-    selectedOverlay?: Overlay|null
+    selectedOverlay?: Overlay
 
     /** A Boolean value that determines whether the map displays points of interest. */
     showsPointsOfInterest?: boolean
@@ -215,13 +215,13 @@ class Map
     showItems(items: (Annotation|Overlay)[], options?: MapShowItemsOptions );
 
     /** A delegate method for modifying cluster annotations. */
-    annotationForCluster?: Annotation
+    annotationForCluster?: (clusterAnnotation: Annotation) => void | Annotation
 
     /** An array of all the annotations on the map. */
     annotations?: Annotation[]
 
     /** The annotation on the map that is selected. */
-    selectedAnnotation?: Annotation|null
+    selectedAnnotation: Annotation | null
 
     /** Returns the list of annotation objects located in the specified map rectangle. */
     annotationsInMapRect(mapRect: MapRect): Annotation[]
@@ -242,10 +242,10 @@ class Map
     overlays: Overlay[]
 
     /** The overlay on the map that is selected. */
-    selectedOverlay: Overlay|null
+    selectedOverlay: Overlay | null
 
     /** Returns an array of overlays at a given point on the webpage. */
-    overlaysAtPoint( point: DOMPoint ): Overlay[]
+    overlaysAtPoint(point: DOMPoint): Overlay[]
 
     /** Adds an overlay to the map. */
     addOverlay(overlay: Overlay);
@@ -260,7 +260,7 @@ class Map
     removeOverlays(overlays: Overlay[]);
 
     /** Returns the topmost overlay at a given point on the webpage. */
-    topOverlayAtPoint( point: DOMPoint ): Overlay
+    topOverlayAtPoint(point: DOMPoint): Overlay
 
     /** An array of all of the map's tile overlays. */
     tileOverlays: TileOverlay[]
@@ -284,7 +284,7 @@ class Map
     tracksUserLocation: boolean
 
     /** An annotation that indicates the user's location on the map. */
-    userLocationAnnotation: Annotation|null
+    userLocationAnnotation: Annotation | null
 
     /** Converts a coordinate on the map to a point in the page's coordinate system. */
     convertCoordinateToPointOnPage(coordinate: Coordinate): DOMPoint
