@@ -12,7 +12,14 @@ function addEventListener(type: string, listener: (Event) => void, thisObject?: 
 /** Unsubscribes a listener function from an event type. */
 function removeEventListener(type: string, listener: (Event) => void, thisObject?: any)
 
-type maps = [Map]
+/** An array to which maps are automatically added and removed as they are initialized and destroyed. */
+type maps = Map[]
+
+/** A language ID indicating the selected language. */
+type language = string
+
+/** A build string that is used internally. It is helpful to include this in bug reports. */
+readonly type build = string
 
 interface MapKitInitOptions
 {
