@@ -347,6 +347,7 @@ interface MapShowItemsOptions
 
 class MapPoint
 {
+    /** Initializes a mapkit.MapPoint object. */
     constructor(x: number, y: number)
 
     /** The location of the point along the x-axis of the map. */
@@ -356,7 +357,7 @@ class MapPoint
     y: number
 
     /** Returns a copy of a map point. */
-    copy: MapPoint
+    copy(): MapPoint
 
     /** Indicates whether two map points are equal. */
     equals(other: MapPoint): boolean
@@ -369,15 +370,26 @@ class MapPoint
 /** A pair of values in map units that define the width and height of a projected coordinate span. */
 class MapSize
 {
+    /** Initializes a mapkit.MapSize object. */
     constructor(width: number, height: number)
 
+    /** The width value, in map point units. */
     width: number
+
+    /** The height value, in map point units. */
     height: number
+
+    /** Returns a copy of a map size. */
+    copy: MapSize
+
+    /** Indicates whether two map sizes are equal. */
+    equals(anotherSize: MapSize): boolean
 }
 
 /** A rectangular area on a two-dimensional map projection. */
 class MapRect
 {
+    /** Initializes a mapkit.MapRect object. */
     constructor(x: number, y: number, width: number, height: number);
 
     /** The origin point of a rectangle. */
