@@ -34,6 +34,7 @@ interface MapKitInitOptions
 
 class Coordinate
 {
+    /** Creates a coordinate object with the specified latitude and longitude. */
     constructor(latitude: number, longitude: number)
 
     /** The latitude in degrees. */
@@ -471,8 +472,10 @@ class CoordinateSpan
     /** The amount of east-to-west distance (measured in degrees) to display for the map region. */
     longitudeDelta: number
 
+    /** Returns a copy of the coordinate span. */
     copy(): CoordinateSpan
 
+    /** Returns a Boolean value that indicates whether two spans are equal. */
     equals(other: CoordinateSpan): boolean
 }
 
@@ -481,13 +484,22 @@ class BoundingRegion
 {
     constructor( northLatitude: number,  eastLongitude: number, southLatitude: number, westLongitude: number);
 
+    /** The north latitude of the bounding region. */
     northLatitude: number
+
+    /** The east longitude of the bounding region. */
     eastLongitude: number
+
+    /** The south latitude of the bounding region. */
     southLatitude: number
+
+    /** The west longitude of the bounding region. */
     westLongitude: number
 
+    /** Returns a copy of the calling bounding region. */
     copy(): BoundingRegion
 
+    /** Returns the coordinate region that corresponds to the calling bounding region. */
     toCoordinateRegion(): CoordinateRegion
 }
 
