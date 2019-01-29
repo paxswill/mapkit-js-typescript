@@ -879,31 +879,179 @@ export interface AnnotationCalloutDelegate
     // TODO
 }
 
+declare enum FillOpacityRule
+{
+    NonZero = "nonzero",
+    EvenOdd = "evenodd"
+}
+
+declare enum LineCapStyle
+{
+    Butt = "butt",
+    Round = "round",
+    Square = "square"
+}
+
+declare enum LineJoinStyle
+{
+    Miter = "miter",
+    Round = "round",
+    Bevel = "bevel"
+}
+
+export interface StyleConstructorOptions
+{
+    /** The fill color of a shape. */
+    fillColor?: string | null
+
+    /** The opacity of the fill color. */
+    fillOpacity?: number
+
+    /** A rule for determining whether a point is inside or outside a polygon. */
+    fillRule?: FillOpacityRule
+
+    /** The style to use when drawing line endings. */
+    lineCap?: LineCapStyle
+
+    /** An array of line and gap lengths, used to create a dashed line. */
+    lineDash?: number[]
+
+    /** The number of CSS pixels to offset drawing of a line's dash pattern. */
+    lineDashOffset?: number
+
+    /** The style to use when drawing joins between line segments. */
+    lineJoin?: LineJoinStyle
+
+    /** The width of a line's stroke, in CSS pixels. */
+    lineWidth?: number
+
+    /** The stroke color of a line. */
+    strokeColor?: number
+
+    /** The opacity of the stroke color. */
+    strokeOpacity?: number
+}
+
+export class Style
+{
+    constructor(options?: StyleConstructorOptions)
+
+    /** The fill color of a shape. */
+    fillColor: string | null
+
+    /** The opacity of the fill color. */
+    fillOpacity: number
+
+    /** A rule for determining whether a point is inside or outside a polygon. */
+    fillRule: FillOpacityRule
+
+    /** The style to use when drawing line endings. */
+    lineCap: LineCapStyle
+
+    /** An array of line and gap lengths, used to create a dashed line. */
+    lineDash: number[]
+
+    /** The number of CSS pixels to offset drawing of a line's dash pattern. */
+    lineDashOffset: number
+
+    /** The style to use when drawing joins between line segments. */
+    lineJoin: LineJoinStyle
+
+    /** The width of a line's stroke, in CSS pixels. */
+    lineWidth: number
+
+    /** The stroke color of a line. */
+    strokeColor: number
+
+    /** The opacity of the stroke color. */
+    strokeOpacity: number
+}
+
 interface OverlayEventWithoutSelectTypes {}
 
-interface OverlayEventTypes extends SelectEventTypes, OverlayEventWithoutSelectTypes {
+interface OverlayEventTypes extends SelectEventTypes, OverlayEventWithoutSelectTypes
+{
     "select": OverlayEvent
     "deselect": OverlayEvent
 }
 
-export class Overlay
+export abstract class Overlay extends MapKitEvented<OverlayEventTypes>
 {
-    // TODO
+    /** Custom data to associate with this overlay. */
+    data: any
+
+    /** A Boolean value that determines if an overlay is visible. */
+    visible: boolean
+
+    /** A Boolean value that determines whether the overlay responds to user interaction. */
+    enabled: boolean
+
+    /** A Boolean value that indicates whether the overlay is selected. */
+    selected: boolean
+
+    /** Style properties to apply to the overlay. */
+    style: Style
+
+    /** The map to which the overlay is added. */
+    map: Map
 }
 
+export interface OverlayOptions
+{
+    /** Custom data to associate with this overlay. */
+    data?: any
+
+    /** A Boolean value that determines whether the overlay responds to user interaction. */
+    enabled?: boolean
+
+    /** A Boolean value that indicates whether the overlay is selected. */
+    selected?: boolean
+
+    /** A Boolean value that determines if an overlay is visible. */
+    visible?: boolean
+
+    /*
+     * The style property isn't mentioned in Apple's docs, but *is* mentioned in
+     * their examples when actually creating Overlay objects. Go figure.
+     */
+    /** Style properties to apply to the overlay. */
+    style?: Style
+}
+
+/**
+ * A circular overlay with a configurable radius, centered on a specific geographic coordinate.
+ */
 export class CircleOverlay extends Overlay
 {
-    // TODO
+    constructor(coordinate: Coordinate, radius: number, options?: OverlayOptions)
+
+    /** The coordinate of the circle overlay's center. */
+    coordinate: Coordinate
+
+    /** The circle overlay's radius in meters. */
+    radius: number
 }
 
 export class PolylineOverlay extends Overlay
 {
-    // TODO
+    constructor(points: Coordinate[], options?: OverlayOptions)
+
+    /** An array of coordinate points that define the polyline overlay's shape. */
+    points: Coordinate[]
 }
 
 export class PolygonOverlay extends Overlay
 {
-    // TODO
+    constructor(points: Coordinate[], options?: OverlayOptions)
+    constructor(points: Coordinate[][], options?: OverlayOptions)
+
+    /**
+     * One or more arrays of coordinates that define the polygon overlay shape.
+     * When accessing, an array of array of Coordinate objects is returned. If
+     * an array of Coordinates is set as the a new value, the array is wrapped
+     * in another array automatically.
+     */
+    points: Coordinate[][] | Coordinate[]
 }
 
 export class TileOverlay
