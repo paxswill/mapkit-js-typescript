@@ -973,8 +973,8 @@ export class Geocoder
     /** A language ID that determines the language used for displaying addresses. */
     language: string
 
-    lookup ( place: string, callback: (error, data: GeocodeResponse) => void, options?: GeocoderLookupOptions ): number;
     /** Converts an address to geographic coordinates. */
+    lookup(place: string, callback: (error: MapKitError, data: GeocodeResponse) => void, options?: GeocoderLookupOptions): number
 
     /** Converts a geographic coordinate to an address. */
     reverseLookup(coordinate: Coordinate, callback: (error: MapKitError, data: GeocodeResponse) => void, options?: GeocoderReverseLookupOptions): number
