@@ -1075,6 +1075,8 @@ export class Search
     /** Retrieves a list of autocomplete results for the specified search query. */
     autocomplete(query: string, callback: SearchDelegate | ((error: MapKitError, data: SearchAutocompleteResponse) => void), options?: SearchOptions): number
 
+    /** Cancels a search request using its request ID. */
+    cancel(id: number): boolean
 }
 
 // Is this actually WebKitPoint? confusing
