@@ -949,6 +949,7 @@ export interface StyleConstructorOptions
     strokeOpacity?: number
 }
 
+/** A set of observable attributes for overlays, including color and opacity of stroke and fill, and line styles. */
 export class Style
 {
     constructor(options?: StyleConstructorOptions)
@@ -992,6 +993,7 @@ interface OverlayEventTypes extends SelectEventTypes, OverlayEventWithoutSelectT
     "deselect": OverlayEvent
 }
 
+/** An abstract base object that defines the methods and attributes for map overlays. */
 export abstract class Overlay extends MapKitEvented<OverlayEventTypes>
 {
     /** Custom data to associate with this overlay. */
@@ -1035,9 +1037,7 @@ export interface OverlayOptions
     style?: Style
 }
 
-/**
- * A circular overlay with a configurable radius, centered on a specific geographic coordinate.
- */
+/** A circular overlay with a configurable radius, centered on a specific geographic coordinate. */
 export class CircleOverlay extends Overlay
 {
     constructor(coordinate: Coordinate, radius: number, options?: OverlayOptions)
@@ -1049,6 +1049,7 @@ export class CircleOverlay extends Overlay
     radius: number
 }
 
+/** An overlay made up of connected line segments that do not form a closed shape. */
 export class PolylineOverlay extends Overlay
 {
     constructor(points: Coordinate[], options?: OverlayOptions)
@@ -1057,6 +1058,7 @@ export class PolylineOverlay extends Overlay
     points: Coordinate[]
 }
 
+/** An overlay made up of one or more points, forming a closed shape. */
 export class PolygonOverlay extends Overlay
 {
     constructor(points: Coordinate[], options?: OverlayOptions)
