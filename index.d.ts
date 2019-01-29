@@ -1295,6 +1295,57 @@ export class Search
     cancel(id: number): boolean
 }
 
+export interface ItemCollection
+{
+    /** The raw GeoJSON data. */
+    data: object
+
+    /** A flattened array of items that include annotations or overlays. */
+    getFlattenedItemList: (Annotation | Overlay)[]
+
+    /** A nested list of annotations, overlays, or other item collections. */
+    items: (Annotation | Overlay | ItemCollection)[]
+}
+
+export interface GeoJSONDelegate
+{
+    /** Overrides a feature. */
+    itemForFeature?: (item: Annotation | Overlay | null, geoJSON: object) => Annotation | Overlay | Annotation[] | Overlay[]
+
+    /** Overrides a feature collection. */
+    itemForFeatureCollection?: (itemCollection: ItemCollection, geoJSON: object) => Annotation | Overlay | Annotation[] | Overlay[]
+
+    /** Overrides a line string. */
+    itemForLineString?: (overlay: PolylineOverlay, geoJSON: object) => Annotation | Overlay | Annotation[] | Overlay[]
+
+    /** Overrides a multiline string. */
+    itemForMultiLineString?: (itemCollection: ItemCollection, geoJSON: object) => Annotation | Overlay | Annotation[] | Overlay[]
+
+    /** Overrides a point. */
+    itemForPoint?: (overlay: Coordinate, geoJSON: object) => Annotation | Overlay | Annotation[] | Overlay[]
+
+    /** Overrides a multipoint object. */
+    itemForMultiPoint?: (itemCollection: ItemCollection, geoJSON: object) => Annotation | Overlay | Annotation[] | Overlay[]
+
+    /** Overrides a polygon. */
+    itemForPolygon?: (overlay: PolygonOverlay, geoJSON: object) => Annotation | Overlay | Annotation[] | Overlay[]
+
+    /** Overrides a multipolygon. */
+    itemForMultiPolygon?: (itemCollection: ItemCollection, geoJSON: object) => Annotation | Overlay | Annotation[] | Overlay[]
+
+    /** Overrides the style of overlays. */
+    styleForOverlay?: (overlay: Overlay, geoJSON: object) => Style
+
+    /** Completes the GeoJSON import. */
+    geoJSONDidComplete?: (result: ItemCollection, geoJSON: object) => void
+
+    /** Indicates the GeoJSON import failed. */
+    geoJSONDidError?: (error: Error, geoJSON: object) => void
+}
+
+/** Converts imported GeoJSON data to MapKit JS items. */
+export function importGeoJSON(data: string | object, callback: GeoJSONDelegate | ((error: MapKitError, result: ItemCollection) => void)): Error | ItemCollection
+
 // Is this actually WebKitPoint? confusing
 export class DOMPoint
 {
