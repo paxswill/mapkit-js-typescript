@@ -814,7 +814,10 @@ class TileOverlay
 
 interface GeocoderConstructorOptions
 {
+    /** An initial Boolean value that indicates whether the geocoder should return results near the user's current location. */
     getsUserLocation?: boolean
+
+    /** An initial value for the language ID, which determines the language used for displaying addresses. */
     language?: string
 }
 
@@ -825,11 +828,16 @@ interface GeocodeResponse
 
 interface GeocoderLookupOptions
 {
+    /** Coordinates used to constrain the lookup results. */
     coordinate?: Coordinate
+
+    /** The language in which to display the lookup results. */
     language?: string
 
     /** Tell the geocoder to return results within a list of countries. Countries in the list are specified with two-letter country codes. For example, constrain the geocoder to return results in Australia and New Zealand with { limitToCountries: "AU, NZ" }. */
     limitToCountries?: string
+
+    /** A region in which to constrain lookup results. */
     region?: CoordinateRegion
 }
 
