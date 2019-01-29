@@ -7,13 +7,15 @@ export as namespace mapkit
 
 /* Non-exported utility types used within this file. */
 
-declare interface MapKitError {
+declare interface MapKitError
+{
     /* MapKit JS uses an Error type in a couple of spots. */
     code: number
     message: string
 }
 
-interface SelectEventTypes {
+interface SelectEventTypes
+{
     /*
      * Maps, Annotations and Overlays all have events with these names. This is
      * the most general typeingo of them. See MapEventTypes,
@@ -23,7 +25,8 @@ interface SelectEventTypes {
     "deselect": AnnotationEvent | OverlayEvent
 }
 
-declare class MapKitEvented<T> {
+declare class MapKitEvented<T>
+{
     /*
      * Helper type so that event listeners can be added in a more type-safe
      * manner. See MapEventTypes and Map for an example of usage.
@@ -53,15 +56,18 @@ declare enum MapKitInitFailureStatus
     tooManyRequests = "Too Many Requests"
 }
 
-declare class MapKitInitSuccessEvent extends Event {
+declare class MapKitInitSuccessEvent extends Event
+{
     status: MapKitInitSuccessStatus
 }
 
-declare class MapKitInitFailureEvent extends Event {
+declare class MapKitInitFailureEvent extends Event
+{
     status: MapKitInitFailureStatus
 }
 
-interface MapKitEventTypes {
+interface MapKitEventTypes
+{
     "configuration-change": MapKitInitSuccessEvent
     "error": MapKitInitFailureEvent
 }
@@ -192,32 +198,38 @@ export interface MapConstructorOptions
 
 }
 
-declare class MapEvent extends Event {
+declare class MapEvent extends Event
+{
     /* Just in case Apple adds more properties to Map events. */
 }
 
-declare class OverlayEvent extends Event {
+declare class OverlayEvent extends Event
+{
     overlay: Overlay
 }
 
-declare class UserLocationChangeEvent extends Event {
+declare class UserLocationChangeEvent extends Event
+{
     coordinate: Coordinate
     timestamp: Date
 }
 
-declare enum LocationError {
+declare enum LocationError
+{
     PERMISSION_DENIED = 1,
     POSITION_UNAVAILABLE = 2,
     TIMEOUT = 3,
     MAPKIT_NOT_INITIALIZED = 4
 }
 
-declare class UserLocationErrorEvent implements MapKitError {
+declare class UserLocationErrorEvent implements MapKitError
+{
     code: LocationError
     message: string
 }
 
-interface MapEventTypes extends SelectEventTypes, AnnotationEventWithoutSelectTypes, OverlayEventWithoutSelectTypes {
+interface MapEventTypes extends SelectEventTypes, AnnotationEventWithoutSelectTypes, OverlayEventWithoutSelectTypes
+{
     "region-change-start": MapEvent
     "region-change-end": MapEvent
     "scroll-start": MapEvent
@@ -392,7 +404,8 @@ export class Map extends MapKitEvented<MapEventTypes>
     element: HTMLElement
 }
 
-export namespace Map {
+export namespace Map 
+{
     export enum MapTypes
     {
         /** A satellite image of the area with road and road name information layered on top. */
@@ -674,11 +687,13 @@ export interface AnnotationConstructorOptions
     accessibilityLabel?: string
 }
 
-declare class AnnotationEvent extends Event {
+declare class AnnotationEvent extends Event
+{
     annotation: Annotation
 }
 
-interface AnnotationEventWithoutSelectTypes {
+interface AnnotationEventWithoutSelectTypes
+{
     /*
      * This type is inherited by MapEventTypes, so if adding an event here,
      * double check that it is also listenable as an event on Map objects.
@@ -688,7 +703,8 @@ interface AnnotationEventWithoutSelectTypes {
     "drag-end": AnnotationEvent
 }
 
-interface AnnotationEventTypes extends SelectEventTypes, AnnotationEventWithoutSelectTypes {
+interface AnnotationEventTypes extends SelectEventTypes, AnnotationEventWithoutSelectTypes
+{
     "select": AnnotationEvent
     "deselect": AnnotationEvent
 }
@@ -743,7 +759,8 @@ export class Annotation extends MapKitEvented<AnnotationEventTypes>
     accessibilityLabel: string
 }
 
-export namespace Annotation {
+export namespace Annotation
+{
     /** Constant values used to provide a hint the map uses to prioritize displaying annotations. */
     export enum DisplayPriority
     {
