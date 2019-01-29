@@ -967,14 +967,19 @@ export class Geocoder
 {
     constructor(options?: GeocoderConstructorOptions)
 
+    /* A Boolean value that indicates whether the geocoder should return results near the user's current location. */
     getsUserLocation: boolean
+
+    /** A language ID that determines the language used for displaying addresses. */
     language: string
 
     lookup ( place: string, callback: (error, data: GeocodeResponse) => void, options?: GeocoderLookupOptions ): number;
+    /** Converts an address to geographic coordinates. */
 
+    /** Converts a geographic coordinate to an address. */
     reverseLookup(coordinate: Coordinate, callback: (error: MapKitError, data: GeocodeResponse) => void, options?: GeocoderReverseLookupOptions): number
 
-    /**  A geocoding request can be cancelled by ID. */
+    /** Cancels the pending lookup or reverse lookup specified by its request ID. */
     cancel(id: number): boolean
 }
 
@@ -991,16 +996,21 @@ export interface SearchConstructorOptions
 
     /** A map region that provides a hint for the geographic area to search. In a map application, this is typically the region displayed in the map. */
     region?: CoordinateRegion
-
 }
 
 export interface SearchResponse
 {
-    /** A list of places that match the search query. */
+    /**
+     * A list of places that match the search query.
+     * The places array is empty if there is no match.
+     * */
     places: Place[]
 
-    /** The query string used to perform the search. */
     query?: string
+    /**
+     * The query string used to perform the search.
+     * This property is empty when you use a SearchAutocompleteResult object to perform the search.
+    */
 
     /** The region that encloses the places included in the search results. This property is not present if there are no results. */
     boundingRegion?: CoordinateRegion
@@ -1008,13 +1018,17 @@ export interface SearchResponse
 
 export interface SearchOptions
 {
+    /** A map coordinate that provides a hint for the geographic area to search. This overrides the coordinate provided to the mapkit.Search constructor.  */
     coordinate?: Coordinate
+
+    /** A language ID that determines the language for the search result text. This overrides the language provided to the mapkit.Search constructor. */
     language?: string
 
-    /** A map region that provides a hint for the geographic area to search. */
+    /** A map region that provides a hint for the geographic area to search.  This overrides the region provided to the mapkit.Search constructor. */
     region?: CoordinateRegion
 }
 
+/** The result of an autocomplete query, including display lines and a coordinate. */
 export interface SearchAutocompleteResult
 {
     /** The coordinate of the result, provided when it corresponds to a single place. */
@@ -1024,9 +1038,13 @@ export interface SearchAutocompleteResult
     displayLines: string[] 
 }
 
+/** An object containing the response from an autocomplete request. */
 export interface SearchAutocompleteResponse
 {
+    /** The query string used to perform the autocomplete request. */
     query: string
+
+    /** The results from an autocomplete request. */
     results: SearchAutocompleteResult[]
 }
 
@@ -1054,7 +1072,9 @@ export class Search
     /** Retrieves the results of a search query. */
     search(query: string | SearchAutocompleteResult, callback: SearchDelegate | ((error: MapKitError, data: SearchResponse) => void), options?: SearchOptions): number
 
+    /** Retrieves a list of autocomplete results for the specified search query. */
     autocomplete(query: string, callback: SearchDelegate | ((error: MapKitError, data: SearchAutocompleteResponse) => void), options?: SearchOptions): number
+
 }
 
 // Is this actually WebKitPoint? confusing
