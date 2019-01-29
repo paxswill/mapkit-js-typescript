@@ -1071,9 +1071,58 @@ export class PolygonOverlay extends Overlay
     points: Coordinate[][] | Coordinate[]
 }
 
-export class TileOverlay
+export interface TileOverlayConstructorOptions
 {
-    // TODO
+    /** Custom data used to populate the URL template. */
+    data: any
+
+    /** Maximum zoom level of the overlay. */
+    maximumZ: number
+
+    /** Minimum zoom level of the overlay. */
+    minimumZ: number
+
+    /** Opacity level of the overlay. */
+    opacity: number
+}
+
+interface TileOverlayErrorEvent
+{
+    /** The tile overlay containing the failing tile. */
+    tileOverlay: TileOverlay
+
+    /** The specific tile URL that failed. */
+    tileUrl: string
+}
+
+interface TileOverlayEventTypes
+{
+    "tile-error": TileOverlayErrorEvent
+}
+
+/** An overlay that covers an area of the map with bitmap tiles. */
+export class TileOverlay extends MapKitEvented<TileOverlayEventTypes>
+{
+    constructor(urlTemplate: string, options?: TileOverlayConstructorOptions)
+    constructor(urlTemplate: (x: number, y: number, z: number, scale: number, data: any) => string, options?: TileOverlayConstructorOptions)
+    
+    /** A string, or callback function that returns a string, with a URL that provides the requested tile. */
+    urlTemplate: (x: number, y: number, z: number, scale: number, data: any) => string | string
+
+    /** A dictionary of custom properties used with the URL template. */
+    data: any
+
+    /** Reloads the tile overlay for the displayed map region with the latest data values. */
+    reload(): void
+
+    /** A number from 0 to 1 indicating a tile's opacity. */
+    opacity: number
+
+    /** The maximum zoom level for a tile overlay. */
+    maximumZ: number | null
+
+    /** The minimum zoom level for a tile overlay. */
+    minimumZ: number | null
 }
 
 export interface GeocoderConstructorOptions
