@@ -87,7 +87,7 @@ export interface MapKitInitOptions
      * The callback function MapKit JS will invoke to asynchronously obtain an authorization token.
      * authorizationCallback will be invoked by MapKit JS throughout a session and should be prepared to obtain a new token and pass it to the done function, which will be provided my MapKit JS as the sole argument each time the authorizationCallback function is called.
      */
-    authorizationCallback: (done: (jwt: (string)) => void) => void;
+    authorizationCallback: (done: (jwt: (string)) => void) => void
 
     language?: string
 }
@@ -251,25 +251,25 @@ export class Map extends MapKitEvented<MapEventTypes>
     center: Coordinate
 
     /** Centers the map to the provided coordinate, with optional animation. */
-    setCenterAnimated(coordinate: Coordinate, animate?: boolean): Map;
+    setCenterAnimated(coordinate: Coordinate, animate?: boolean): Map
 
     /** The area currently displayed by the map. */
     region: CoordinateRegion
 
     /** Changes the map's region to the region provided, with optional animation. */
-    setRegionAnimated(egion: CoordinateRegion, animate?: boolean): Map;
+    setRegionAnimated(egion: CoordinateRegion, animate?: boolean): Map
 
     /** The map's rotation, in degrees. */
     rotation: number
 
     /** Changes the map's rotation setting to the number of degrees specified. */
-    setRotationAnimated(degrees: number, animate?: boolean): Map;
+    setRotationAnimated(degrees: number, animate?: boolean): Map
 
     /** The visible area of the map defined in map units. */
     visibleMapRect: MapRect
 
     /** Changes the map's visible map rectangle to the specified map rectangle. */
-    setVisibleMapRectAnimated(mapRect: MapRect, animate?: boolean): Map;
+    setVisibleMapRectAnimated(mapRect: MapRect, animate?: boolean): Map
 
     /** The map’s color scheme when displaying standard or muted standard map types. */
     colorScheme: Map.ColorSchemes
@@ -490,7 +490,7 @@ export class MapSize
 export class MapRect
 {
     /** Initializes a mapkit.MapRect object. */
-    constructor(x: number, y: number, width: number, height: number);
+    constructor(x: number, y: number, width: number, height: number)
 
     /** The origin point of a rectangle. */
     origin: MapPoint
@@ -526,13 +526,12 @@ export class MapRect
 
     /**  Returns the region that corresponds to a map rectangle. */
     toCoordinateRegion(): CoordinateRegion
-
 }
 
 /** A rectangular area on a map defined by a center coordinate and a span, expressed in degrees of latitude and longitude. */
 export class CoordinateRegion
 {
-    constructor(center: Coordinate, span: CoordinateSpan);
+    constructor(center: Coordinate, span: CoordinateSpan)
 
     /** The center point of the region. */
     center: Coordinate
@@ -556,7 +555,7 @@ export class CoordinateRegion
 /** The width and height of a map region. */
 export class CoordinateSpan
 {
-    constructor( latitudeDelta: number, longitudeDelta: number);
+    constructor( latitudeDelta: number, longitudeDelta: number)
 
     /** The amount of north-to-south distance (measured in degrees) to display on the map. */
     latitudeDelta: number
@@ -574,7 +573,7 @@ export class CoordinateSpan
 /** A rectangular area on a map, defined by coordinates of the rectangle's northeast and southwest corners. */
 export class BoundingRegion
 {
-    constructor( northLatitude: number,  eastLongitude: number, southLatitude: number, westLongitude: number);
+    constructor( northLatitude: number,  eastLongitude: number, southLatitude: number, westLongitude: number)
 
     /** The north latitude of the bounding region. */
     northLatitude: number
@@ -699,7 +698,7 @@ interface AnnotationEventTypes extends SelectEventTypes, AnnotationEventWithoutS
  */
 export class Annotation extends MapKitEvented<AnnotationEventTypes>
 {
-    constructor(coordinate: Coordinate, factory: Function, options?: AnnotationConstructorOptions );
+    constructor(coordinate: Coordinate, factory: Function, options?: AnnotationConstructorOptions)
 
     /** The annotation's coordinate. */
     coordinate: Coordinate
@@ -712,7 +711,6 @@ export class Annotation extends MapKitEvented<AnnotationEventTypes>
 
     /** The text to display as a subtitle, on the second line of an annotation's callout. */
     subtitle: string
-
 
     anchorOffset: DOMPoint
     appearanceAnimation: string
@@ -967,7 +965,7 @@ export interface Place
 
 export class Geocoder
 {
-    constructor( options?: GeocoderConstructorOptions );
+    constructor(options?: GeocoderConstructorOptions)
 
     getsUserLocation: boolean
     language: string
