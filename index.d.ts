@@ -5,14 +5,72 @@
 
 export as namespace mapkit
 
+/* Non-exported utility types used within this file. */
+
+declare interface MapKitError {
+    /* MapKit JS uses an Error type in a couple of spots. */
+    code: number
+    message: string
+}
+
+interface SelectEventTypes {
+    /*
+     * Maps, Annotations and Overlays all have events with these names. This is
+     * the most general typeingo of them. See MapEventTypes,
+     * AnnotationEventTypes, and OverlayEventTypes for more details
+     */
+    "select": AnnotationEvent | OverlayEvent
+    "deselect": AnnotationEvent | OverlayEvent
+}
+
+declare class MapKitEvented<T> {
+    /*
+     * Helper type so that event listeners can be added in a more type-safe
+     * manner. See MapEventTypes and Map for an example of usage.
+     */
+    addEventListener<K extends keyof T>(type: K, listener: (event: T[K]) => void, thisObject?: any): void
+    removeEventListener<K extends keyof T>(type: K, listener: (event: T[K]) => void, thisObject?: any): void
+}
+
 /** Initialize a mapkit object by providing an authorization callback and language. */
 function init(options: MapKitInitOptions): void;
 
+declare enum MapKitInitSuccessStatus
+{
+    /** MapKit successfully initialized and configured. */
+    initialized = "Initialized",
+
+    /** MapKit configuration updated. */
+    refreshed = "Refreshed"
+}
+
+declare enum MapKitInitFailureStatus
+{
+    /** The authorization token provided is invalid. */
+    unauthorized = "Unauthorized",
+
+    /** The authorization token provided is based on a Maps ID, which has exceeded its allowed daily usage. */
+    tooManyRequests = "Too Many Requests"
+}
+
+declare class MapKitInitSuccessEvent extends Event {
+    status: MapKitInitSuccessStatus
+}
+
+declare class MapKitInitFailureEvent extends Event {
+    status: MapKitInitFailureStatus
+}
+
+interface MapKitEventTypes {
+    "configuration-change": MapKitInitSuccessEvent
+    "error": MapKitInitFailureEvent
+}
+
 /** Subscribes a listener function to an event type. */
-function addEventListener(type: string, listener: (Event) => void, thisObject?: any)
+export function addEventListener<K extends keyof MapKitEventTypes>(type: K, listener: (event: MapKitEventTypes[K]) => void, thisObject?: any): void
 
 /** Unsubscribes a listener function from an event type. */
-function removeEventListener(type: string, listener: (Event) => void, thisObject?: any)
+export function removeEventListener<K extends keyof MapKitEventTypes>(type: K, listener: (event: MapKitEventTypes[K]) => void, thisObject?: any): void
 
 /** An array to which maps are automatically added and removed as they are initialized and destroyed. */
 type maps = Map[]
@@ -134,16 +192,48 @@ interface MapConstructorOptions
 
 }
 
-/** An embeddable interactive map that you add to a webpage. */
-class Map
-{
     constructor(parent?: string|Element, options?: MapConstructorOptions)
+declare class MapEvent extends Event {
+    /* Just in case Apple adds more properties to Map events. */
+}
 
-    /** Adds an event listener to handle events triggered by user interactions and the framework. */
-    addEventListener(type:string, listener: (Map) => void, thisObject?: any);
+declare class OverlayEvent extends Event {
+    overlay: Overlay
+}
 
-    /** Removes an event listener. */
-    removeEventListener(type:string, listener: (Map) => void, thisObject?: any);
+declare class UserLocationChangeEvent extends Event {
+    coordinate: Coordinate
+    timestamp: Date
+}
+
+declare enum LocationError {
+    PERMISSION_DENIED = 1,
+    POSITION_UNAVAILABLE = 2,
+    TIMEOUT = 3,
+    MAPKIT_NOT_INITIALIZED = 4
+}
+
+declare class UserLocationErrorEvent implements MapKitError {
+    code: LocationError
+    message: string
+}
+
+interface MapEventTypes extends SelectEventTypes, AnnotationEventWithoutSelectTypes, OverlayEventWithoutSelectTypes {
+    "region-change-start": MapEvent
+    "region-change-end": MapEvent
+    "scroll-start": MapEvent
+    "scroll-end": MapEvent
+    "zoom-start": MapEvent
+    "zoom-end": MapEvent
+    "map-type-change": MapEvent
+
+    "user-location-change": UserLocationChangeEvent
+    "user-location-error": UserLocationErrorEvent
+}
+
+/** An embeddable interactive map that you add to a webpage. */
+export class Map extends MapKitEvented<MapEventTypes>
+{
 
     /** A Boolean value that indicates if map rotation is available. */
     isRotationAvailable: boolean
@@ -585,17 +675,31 @@ interface AnnotationConstructorOptions
     accessibilityLabel?: string
 }
 
+declare class AnnotationEvent extends Event {
+    annotation: Annotation
+}
+
+interface AnnotationEventWithoutSelectTypes {
+    /*
+     * This type is inherited by MapEventTypes, so if adding an event here,
+     * double check that it is also listenable as an event on Map objects.
+     */
+    "drag-start": AnnotationEvent
+    "dragging": AnnotationEvent
+    "drag-end": AnnotationEvent
+}
+
+interface AnnotationEventTypes extends SelectEventTypes, AnnotationEventWithoutSelectTypes {
+    "select": AnnotationEvent
+    "deselect": AnnotationEvent
+}
+
 /**
  * The base object for annotations, used when creating custom annotations.
  */
-class Annotation
+export class Annotation extends MapKitEvented<AnnotationEventTypes>
 {
     constructor(coordinate: Coordinate, factory: Function, options?: AnnotationConstructorOptions );
-
-    addEventListener(type:string, listener: (Annotation) => void, thisObject?: any);
-
-    /** Removes an event listener. */
-    removeEventListener(type:string, listener: (Annotation) => void, thisObject?: any);
 
     /** The annotation's coordinate. */
     coordinate: Coordinate
@@ -789,7 +893,14 @@ calloutRightAccessoryForAnnotation
 */
 }
 
-class Overlay
+interface OverlayEventWithoutSelectTypes {}
+
+interface OverlayEventTypes extends SelectEventTypes, OverlayEventWithoutSelectTypes {
+    "select": OverlayEvent
+    "deselect": OverlayEvent
+}
+
+export class Overlay
 {
     // TODO
 }
