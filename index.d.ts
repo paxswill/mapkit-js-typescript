@@ -192,7 +192,6 @@ export interface MapConstructorOptions
 
 }
 
-    constructor(parent?: string|Element, options?: MapConstructorOptions)
 declare class MapEvent extends Event {
     /* Just in case Apple adds more properties to Map events. */
 }
@@ -234,6 +233,7 @@ interface MapEventTypes extends SelectEventTypes, AnnotationEventWithoutSelectTy
 /** An embeddable interactive map that you add to a webpage. */
 export class Map extends MapKitEvented<MapEventTypes>
 {
+    constructor(parent?: string | HTMLElement, options?: MapConstructorOptions)
 
     /** A Boolean value that indicates if map rotation is available. */
     isRotationAvailable: boolean
@@ -389,7 +389,7 @@ export class Map extends MapKitEvented<MapEventTypes>
     destroy(): void
 
     /** The map's DOM element. */
-    element: Element
+    element: HTMLElement
 }
 
 export namespace Map {
@@ -730,7 +730,7 @@ export class Annotation extends MapKitEvented<AnnotationEventTypes>
     map: Map
 
     /** The annotation's element in the DOM. */
-    element: Element
+    element: HTMLElement
 
     /** The callout delegate is an optional object that implements methods used to customize the appearance, content and animations of the callout appearing when the annotation is selected. */
     callout: AnnotationCalloutDelegate
