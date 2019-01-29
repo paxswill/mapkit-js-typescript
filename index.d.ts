@@ -1006,11 +1006,11 @@ export interface SearchResponse
      * */
     places: Place[]
 
-    query?: string
     /**
      * The query string used to perform the search.
      * This property is empty when you use a SearchAutocompleteResult object to perform the search.
     */
+    query: string
 
     /** The region that encloses the places included in the search results. This property is not present if there are no results. */
     boundingRegion?: CoordinateRegion
