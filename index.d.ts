@@ -1,5 +1,7 @@
 // Type definitions for MapKit JS 5.13.0
+// Project: https://developer.apple.com/documentation/mapkitjs
 // Definitions by: Jon Nermut <asdeqlabs.com>, Will Ross <paxswill.com>
+// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
 export as namespace mapkit
 
