@@ -305,7 +305,7 @@ export class Map extends MapKitEvented<MapEventTypes>
     tintColor: string
 
     /** Adjusts the map's visible region to bring the specified overlays and annotations into view. */
-    showItems(items: (Annotation|Overlay)[], options?: MapShowItemsOptions );
+    showItems(items: (Annotation | Overlay)[], options?: MapShowItemsOptions): (Annotation | Overlay)[]
 
     /** A delegate method for modifying cluster annotations. */
     annotationForCluster?: (clusterAnnotation: Annotation) => void | Annotation
@@ -320,16 +320,16 @@ export class Map extends MapKitEvented<MapEventTypes>
     annotationsInMapRect(mapRect: MapRect): Annotation[]
 
     /** Adds an annotation to the map. */
-    addAnnotation(annotation: Annotation)
+    addAnnotation(annotation: Annotation): Annotation
 
     /** Adds multiple annotations to the map. */
-    addAnnotations(annotations: Annotation[])
+    addAnnotations(annotations: Annotation[]): Annotation[]
 
     /** Removes an annotation from the map. */
-    removeAnnotation(annotation: Annotation)
+    removeAnnotation(annotation: Annotation): Annotation
 
     /** Removes multiple annotations from the map. */
-    removeAnnotations(annotations: Annotation[])
+    removeAnnotations(annotations: Annotation[]): Annotation[]
 
     /** An array of all of the map's overlays. */
     overlays: Overlay[]
@@ -341,16 +341,16 @@ export class Map extends MapKitEvented<MapEventTypes>
     overlaysAtPoint(point: DOMPoint): Overlay[]
 
     /** Adds an overlay to the map. */
-    addOverlay(overlay: Overlay);
+    addOverlay(overlay: Overlay): Overlay
 
     /** Adds multiple overlays to the map. */
-    addOverlays(overlays: Overlay[]);
+    addOverlays(overlays: Overlay[]): Overlay[]
 
     /** Removes an overlay from the map. */
-    removeOverlay(overlay: Overlay);
+    removeOverlay(overlay: Overlay): Overlay
 
     /** Removes multiple overlays from the map. */
-    removeOverlays(overlays: Overlay[]);
+    removeOverlays(overlays: Overlay[]): Overlay[]
 
     /** Returns the topmost overlay at a given point on the webpage. */
     topOverlayAtPoint(point: DOMPoint): Overlay
@@ -359,16 +359,16 @@ export class Map extends MapKitEvented<MapEventTypes>
     tileOverlays: TileOverlay[]
 
     /** Adds a tile overlay to the map. */
-    addTileOverlay(overlay: TileOverlay);
+    addTileOverlay(overlay: TileOverlay): TileOverlay
 
     /** Adds an array of tile overlays to the map. */
-    addTileOverlays(overlays: TileOverlay[]);
+    addTileOverlays(overlays: TileOverlay[]): TileOverlay[]
 
     /** Removes a tile overlay from the map. */
-    removeTileOverlay(overlay: TileOverlay);
+    removeTileOverlay(overlay: TileOverlay): TileOverlay
 
     /** Removes an array of tile overlays from the map. */
-    removeTileOverlays(overlays: TileOverlay[]);
+    removeTileOverlays(overlays: TileOverlay[]): TileOverlay[]
 
     /** A Boolean value that determines whether to show the user's location on the map. */
     showsUserLocation: boolean
@@ -522,7 +522,7 @@ export class MapRect
     /** Indicates whether two map rectangles are equal. */
     equals(other: MapRect): boolean
 
-    scale(scaleFactor: number, scaleCenter: MapPoint);
+    scale(scaleFactor: number, scaleCenter: MapPoint): MapRect
 
     /**  Returns the region that corresponds to a map rectangle. */
     toCoordinateRegion(): CoordinateRegion
@@ -954,7 +954,7 @@ export interface Place
     formattedAddress: string
 
     /** The country associated with this place, denoted by the standard abbreviation used to refer to the country. For example, if the place was was Apple Park, the value for this property would be the string “US”. */
-    countryCode
+    countryCode: string
 
     /** The latitude and longitude for this place. */
     coordinate: Coordinate
@@ -972,10 +972,10 @@ export class Geocoder
 
     lookup ( place: string, callback: (error, data: GeocodeResponse) => void, options?: GeocoderLookupOptions ): number;
 
-    reverseLookup (coordinate: Coordinate, callback: (error, data: GeocodeResponse) => void, options?: GeocoderReverseLookupOptions );
+    reverseLookup(coordinate: Coordinate, callback: (error: MapKitError, data: GeocodeResponse) => void, options?: GeocoderReverseLookupOptions): number
 
     /**  A geocoding request can be cancelled by ID. */
-    cancel (id: number);
+    cancel(id: number): boolean
 }
 
 export interface SearchConstructorOptions
@@ -1034,17 +1034,16 @@ export interface SearchAutocompleteResponse
 export interface SearchDelegate
 {
     /** Tells the delegate that the autocomplete request completed. */
-    autocompleteDidComplete?(data: SearchAutocompleteResponse );
+    autocompleteDidComplete?(data: SearchAutocompleteResponse): void
 
     /** Tells the delegate that the autocomplete request failed due to an error. */
-    autocompleteDidError?(error: Error);
+    autocompleteDidError?(error: MapKitError): void
 
     /** Tells the delegate that the search completed. */
-    searchDidComplete?(data: SearchResponse );
+    searchDidComplete?(data: SearchResponse): void
 
     /** Tells the delegate that the search failed due to an error. */
-    searchDidError?(error: Error);
-
+    searchDidError?(error: MapKitError): void
 }
 
 /**  A geocoding request can be cancelled by ID. */
@@ -1053,9 +1052,9 @@ export class Search
     constructor(options?: SearchConstructorOptions)
 
     /** Retrieves the results of a search query. */
-    search (query: string|SearchAutocompleteResult, callback: SearchDelegate|((error, data: SearchResponse) => void), options?: SearchOptions );
+    search(query: string | SearchAutocompleteResult, callback: SearchDelegate | ((error: MapKitError, data: SearchResponse) => void), options?: SearchOptions): number
 
-    autocomplete (query: string, callback: SearchDelegate|((error, data: SearchAutocompleteResponse) => void), options?: SearchOptions );
+    autocomplete(query: string, callback: SearchDelegate | ((error: MapKitError, data: SearchAutocompleteResponse) => void), options?: SearchOptions): number
 }
 
 // Is this actually WebKitPoint? confusing
