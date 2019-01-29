@@ -33,7 +33,7 @@ declare class MapKitEvented<T> {
 }
 
 /** Initialize a mapkit object by providing an authorization callback and language. */
-function init(options: MapKitInitOptions): void;
+export function init(options: MapKitInitOptions): void
 
 declare enum MapKitInitSuccessStatus
 {
@@ -73,15 +73,15 @@ export function addEventListener<K extends keyof MapKitEventTypes>(type: K, list
 export function removeEventListener<K extends keyof MapKitEventTypes>(type: K, listener: (event: MapKitEventTypes[K]) => void, thisObject?: any): void
 
 /** An array to which maps are automatically added and removed as they are initialized and destroyed. */
-type maps = Map[]
+export let maps: Map[]
 
 /** A language ID indicating the selected language. */
-type language = string
+export let language: string
 
 /** A build string that is used internally. It is helpful to include this in bug reports. */
-readonly type build = string
+export const build: string
 
-interface MapKitInitOptions
+export interface MapKitInitOptions
 {
     /**
      * The callback function MapKit JS will invoke to asynchronously obtain an authorization token.
@@ -92,7 +92,7 @@ interface MapKitInitOptions
     language?: string
 }
 
-class Coordinate
+export class Coordinate
 {
     /** Creates a coordinate object with the specified latitude and longitude. */
     constructor(latitude: number, longitude: number)
@@ -116,7 +116,7 @@ class Coordinate
     toUnwrappedMapPoint(): MapPoint
 }
 
-interface MapConstructorOptions
+export interface MapConstructorOptions
 {
     /** The visible area of the map defined in map units.  */
     visibleMapRect?: MapRect 
@@ -392,8 +392,8 @@ export class Map extends MapKitEvented<MapEventTypes>
     element: Element
 }
 
-namespace Map {
-    enum MapTypes
+export namespace Map {
+    export enum MapTypes
     {
         /** A satellite image of the area with road and road name information layered on top. */
         Hybrid = 'Hybrid',
@@ -409,7 +409,7 @@ namespace Map {
 
     }
 
-    enum ColorSchemes
+    export enum ColorSchemes
     {
         /** A constant indicating a light color scheme. */
         Light = 'Light',
@@ -418,7 +418,7 @@ namespace Map {
         Dark = 'Dark'
     }
 
-    enum Distances
+    export enum Distances
     {
         /** A constant indicating the measurement system is adaptive, and determined based on the map's language. */
         Adaptive = 'Adaptive',
@@ -432,7 +432,7 @@ namespace Map {
 }
 
 
-interface MapShowItemsOptions
+export interface MapShowItemsOptions
 {
     /** A Boolean value that determines whether the map is animated as the map region changes to show the items. */
     animate?: boolean
@@ -445,7 +445,7 @@ interface MapShowItemsOptions
 
 }
 
-class MapPoint
+export class MapPoint
 {
     /** Initializes a mapkit.MapPoint object. */
     constructor(x: number, y: number)
@@ -468,7 +468,7 @@ class MapPoint
 }
 
 /** A pair of values in map units that define the width and height of a projected coordinate span. */
-class MapSize
+export class MapSize
 {
     /** Initializes a mapkit.MapSize object. */
     constructor(width: number, height: number)
@@ -487,7 +487,7 @@ class MapSize
 }
 
 /** A rectangular area on a two-dimensional map projection. */
-class MapRect
+export class MapRect
 {
     /** Initializes a mapkit.MapRect object. */
     constructor(x: number, y: number, width: number, height: number);
@@ -530,7 +530,7 @@ class MapRect
 }
 
 /** A rectangular area on a map defined by a center coordinate and a span, expressed in degrees of latitude and longitude. */
-class CoordinateRegion
+export class CoordinateRegion
 {
     constructor(center: Coordinate, span: CoordinateSpan);
 
@@ -554,7 +554,7 @@ class CoordinateRegion
 }
 
 /** The width and height of a map region. */
-class CoordinateSpan
+export class CoordinateSpan
 {
     constructor( latitudeDelta: number, longitudeDelta: number);
 
@@ -572,7 +572,7 @@ class CoordinateSpan
 }
 
 /** A rectangular area on a map, defined by coordinates of the rectangle's northeast and southwest corners. */
-class BoundingRegion
+export class BoundingRegion
 {
     constructor( northLatitude: number,  eastLongitude: number, southLatitude: number, westLongitude: number);
 
@@ -595,7 +595,7 @@ class BoundingRegion
     toCoordinateRegion(): CoordinateRegion
 }
 
-interface PaddingConstructorOptions
+export interface PaddingConstructorOptions
 {
     bottom: number
     left: number
@@ -603,7 +603,7 @@ interface PaddingConstructorOptions
     top: number
 }
 
-class Padding
+export class Padding
 {
     constructor(options?: PaddingConstructorOptions|number[] )
 
@@ -620,7 +620,7 @@ class Padding
     top: number
 }
 
-interface AnnotationConstructorOptions
+export interface AnnotationConstructorOptions
 {
     /** Data that you define that is assigned to the annotation. */
     data?: any
@@ -745,9 +745,9 @@ export class Annotation extends MapKitEvented<AnnotationEventTypes>
     accessibilityLabel: string
 }
 
-declare namespace Annotation {
+export namespace Annotation {
     /** Constant values used to provide a hint the map uses to prioritize displaying annotations. */
-    enum DisplayPriority
+    export enum DisplayPriority
     {
         /** A low display priority, with a preset value of 250 out of 1000. */
         Low = 250,
@@ -760,7 +760,7 @@ declare namespace Annotation {
     }
 
     /** Constants indicating how to interpret the collision frame rectangle of an annotation view. */
-    enum CollisionMode
+    export enum CollisionMode
     {
         /** A constant indicating that a circle inscribed in the collision frame rectangle should be used to determine collisions. */
         Circle = 'Circle',
@@ -783,7 +783,7 @@ interface _DisplayAsset
     3?: string,
 }
 
-class MarkerAnnotation extends Annotation
+export class MarkerAnnotation extends Annotation
 {
     constructor(coordinate: Coordinate, options?: MarkerAnnotationConstructorOptions)
 
@@ -809,7 +809,7 @@ class MarkerAnnotation extends Annotation
     titleVisibility: FeatureVisibility
 }
 
-interface MarkerAnnotationConstructorOptions extends AnnotationConstructorOptions
+export interface MarkerAnnotationConstructorOptions extends AnnotationConstructorOptions
 {
     /** The fill color of the marker. */
     color?: string
@@ -835,7 +835,7 @@ interface MarkerAnnotationConstructorOptions extends AnnotationConstructorOption
 }
 
 /** A customized annotation with image resources that you provide. */
-class ImageAnnotation extends Annotation
+export class ImageAnnotation extends Annotation
 {
     constructor(coordinate: Coordinate, options?: ImageAnnotationConstructorOptions)
 
@@ -850,7 +850,7 @@ class ImageAnnotation extends Annotation
     url: _DisplayAsset
 }
 
-interface ImageAnnotationConstructorOptions extends AnnotationConstructorOptions
+export interface ImageAnnotationConstructorOptions extends AnnotationConstructorOptions
 {
     /** An object containing URLs for the image assets in multiple resolutions. 
      * eg:
@@ -863,7 +863,7 @@ interface ImageAnnotationConstructorOptions extends AnnotationConstructorOptions
     url: _DisplayAsset
 }
 
-enum FeatureVisibility
+export enum FeatureVisibility
 {
     /** Indicates that a map feature adapts to the current map state. */
     Adaptive = 'Adaptive',
@@ -876,21 +876,9 @@ enum FeatureVisibility
 
 }
 
-interface AnnotationCalloutDelegate
+export interface AnnotationCalloutDelegate
 {
-    // TODO: 
-    /*
-    Customizing Callout Appearance
-calloutAnchorOffsetForAnnotation
-calloutShouldAppearForAnnotation
-calloutShouldAnimateForAnnotation
-calloutAppearanceAnimationForAnnotation
-Providing Elements
-calloutContentForAnnotation
-calloutElementForAnnotation
-calloutLeftAccessoryForAnnotation
-calloutRightAccessoryForAnnotation
-*/
+    // TODO
 }
 
 interface OverlayEventWithoutSelectTypes {}
@@ -905,27 +893,27 @@ export class Overlay
     // TODO
 }
 
-class CircleOverlay extends Overlay
+export class CircleOverlay extends Overlay
 {
     // TODO
 }
 
-class PolylineOverlay extends Overlay
+export class PolylineOverlay extends Overlay
 {
     // TODO
 }
 
-class PolygonOverlay extends Overlay
+export class PolygonOverlay extends Overlay
 {
     // TODO
 }
 
-class TileOverlay
+export class TileOverlay
 {
     // TODO
 }
 
-interface GeocoderConstructorOptions
+export interface GeocoderConstructorOptions
 {
     /** An initial Boolean value that indicates whether the geocoder should return results near the user's current location. */
     getsUserLocation?: boolean
@@ -934,12 +922,12 @@ interface GeocoderConstructorOptions
     language?: string
 }
 
-interface GeocodeResponse
+export interface GeocodeResponse
 {
     results: Place[]
 }
 
-interface GeocoderLookupOptions
+export interface GeocoderLookupOptions
 {
     /** Coordinates used to constrain the lookup results. */
     coordinate?: Coordinate
@@ -954,12 +942,12 @@ interface GeocoderLookupOptions
     region?: CoordinateRegion
 }
 
-interface GeocoderReverseLookupOptions
+export interface GeocoderReverseLookupOptions
 {
     language?: string
 }
 
-interface Place
+export interface Place
 {
     /** The name of this place. */
     name: string
@@ -977,7 +965,7 @@ interface Place
     region: CoordinateRegion
 }
 
-class Geocoder
+export class Geocoder
 {
     constructor( options?: GeocoderConstructorOptions );
 
@@ -992,7 +980,7 @@ class Geocoder
     cancel (id: number);
 }
 
-interface SearchConstructorOptions 
+export interface SearchConstructorOptions
 {
     /** A map coordinate that provides a hint for the geographic area to search. */
     coordinate?: Coordinate
@@ -1008,7 +996,7 @@ interface SearchConstructorOptions
 
 }
 
-interface SearchResponse
+export interface SearchResponse
 {
     /** A list of places that match the search query. */
     places: Place[]
@@ -1020,8 +1008,7 @@ interface SearchResponse
     boundingRegion?: CoordinateRegion
 }
 
-interface SearchOptions
-
+export interface SearchOptions
 {
     coordinate?: Coordinate
     language?: string
@@ -1030,7 +1017,7 @@ interface SearchOptions
     region?: CoordinateRegion
 }
 
-interface SearchAutocompleteResult
+export interface SearchAutocompleteResult
 {
     /** The coordinate of the result, provided when it corresponds to a single place. */
     coordinate?: Coordinate
@@ -1039,14 +1026,14 @@ interface SearchAutocompleteResult
     displayLines: string[] 
 }
 
-interface SearchAutocompleteResponse
+export interface SearchAutocompleteResponse
 {
     query: string
     results: SearchAutocompleteResult[]
 }
 
 /** An object or callback function you provide that is called when performing a search or autocomplete request. */
-interface SearchDelegate
+export interface SearchDelegate
 {
     /** Tells the delegate that the autocomplete request completed. */
     autocompleteDidComplete?(data: SearchAutocompleteResponse );
@@ -1063,7 +1050,7 @@ interface SearchDelegate
 }
 
 /**  A geocoding request can be cancelled by ID. */
-class Search
+export class Search
 {
     constructor(options?: SearchConstructorOptions)
 
