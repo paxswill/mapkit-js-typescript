@@ -933,7 +933,29 @@ export enum FeatureVisibility
 
 export interface AnnotationCalloutDelegate
 {
-    // TODO
+    /** Returns a point determining the callout's anchor offset. */
+    calloutAnchorOffsetForAnnotation(annotation: Annotation, size: {width: number, height: number}): DOMPoint
+
+    /** Determines whether the callout should appear for an annotation. */
+    calloutShouldAppearForAnnotation(annotation: Annotation): boolean
+
+    /** Determines whether the callout should animate. */
+    calloutShouldAnimateForAnnotation(annotation: Annotation): boolean
+
+    /** Returns a CSS animation used when the callout appears. */
+    calloutAppearanceAnimationForAnnotation(annotation: Annotation): string
+
+    /** Returns custom content for the callout bubble. */
+    calloutContentForAnnotation(annotation: Annotation): HTMLElement
+
+    /** Returns an element representing a custom callout. */
+    calloutElementForAnnotation(annotation: Annotation): HTMLElement
+
+    /** Returns an element used as a custom accessory on the left side of the callout content area. */
+    calloutLeftAccessoryForAnnotation(annotation: Annotation): HTMLElement
+
+    /** Returns an element used as a custom accessory on the right side of the callout content area. */
+    calloutRightAccessoryForAnnotation(annotation: Annotation): HTMLElement
 }
 
 declare enum FillOpacityRule
