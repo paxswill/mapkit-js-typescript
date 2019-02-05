@@ -836,7 +836,7 @@ export namespace Annotation
 }
 
 /** An object with URLs to images to be shown at standard, 2x, and 3x Retina screen types */
-interface _DisplayAsset
+interface DisplayAsset
 {
     /** A URL to an image shown at standard screen densities. The dimensions should be 20 x 20 pixels. */
     1: string,
@@ -861,13 +861,13 @@ export class MarkerAnnotation extends Annotation
     glyphColor: string
 
     /** The images to display in the marker. */
-    glyphImage: _DisplayAsset
+    glyphImage: DisplayAsset
 
     /** The text to display in the marker. */
     glyphText: string
 
     /** The images to display in the balloon when the user selects the annotation. */
-    selectedGlyphImage: _DisplayAsset
+    selectedGlyphImage: DisplayAsset
 
     /** A value that determines when the subtitle is visible. */
     subtitleVisibility: FeatureVisibility
@@ -886,13 +886,13 @@ export interface MarkerAnnotationConstructorOptions extends AnnotationConstructo
     glyphColor?: string
 
     /** The images to display in the marker. */
-    glyphImage?: _DisplayAsset
+    glyphImage?: DisplayAsset
 
     /** The text to display in the marker. */
     glyphText?: string
 
     /** The images to display in the balloon when the user selects the annotation. */
-    selectedGlyphImage?: _DisplayAsset
+    selectedGlyphImage?: DisplayAsset
 
     /** A value that determines when the subtitle is visible. */
     subtitleVisibility?: FeatureVisibility
@@ -907,15 +907,15 @@ export class ImageAnnotation extends Annotation
     /** Initializes an image annotation with a URL to its image and a coordinate. */
     constructor(coordinate: Coordinate, options?: ImageAnnotationConstructorOptions)
 
-    url: _DisplayAsset
     /** An object containing URLs for the image assets in multiple resolutions. */
+    url: DisplayAsset
 }
 
 /** An object containing options for initializing an image annotation. */
 export interface ImageAnnotationConstructorOptions extends AnnotationConstructorOptions
 {
-    url: _DisplayAsset
     /** An object containing URLs for the image assets in multiple resolutions. */
+    url: DisplayAsset
 }
 
 /** Constants indicating the visibility of different adaptive map features. */
