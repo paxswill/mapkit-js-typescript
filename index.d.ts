@@ -18,8 +18,8 @@ interface SelectEventTypes
 {
     /*
      * Maps, Annotations and Overlays all have events with these names. This is
-     * the most general typeingo of them. See MapEventTypes,
-     * AnnotationEventTypes, and OverlayEventTypes for more details
+     * the most general typing of them. See MapEventTypes, AnnotationEventTypes,
+     * and OverlayEventTypes for more details
      */
     "select": AnnotationEvent | OverlayEvent
     "deselect": AnnotationEvent | OverlayEvent
