@@ -15,7 +15,7 @@ declare interface MapKitError
     message: string
 }
 
-interface SelectEventTypes
+declare interface SelectEventTypes
 {
     /*
      * Maps, Annotations and Overlays all have events with these names. This is
