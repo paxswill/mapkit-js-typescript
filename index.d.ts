@@ -1533,15 +1533,3 @@ export interface GeoJSONDelegate
 
 /** Converts imported GeoJSON data to MapKit JS items. */
 export function importGeoJSON(data: string | object, callback: GeoJSONDelegate | ((error: MapKitError, result: ItemCollection) => void)): Error | ItemCollection
-
-// Is this actually WebKitPoint? confusing
-export class DOMPoint
-{
-    constructor(x: number, y: number)
-
-    w: number
-    x: number
-    y: number
-    z: number
-
-}
