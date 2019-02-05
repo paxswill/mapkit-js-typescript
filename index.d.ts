@@ -1356,6 +1356,109 @@ export class Search
     cancel(id: number): boolean
 }
 
+/** Options that you may provide when creating a directions object. */
+export interface DirectionsConstructorOptions
+{
+    /** A language ID that determines the language for route information. */
+    language?: string
+}
+
+/** The requested start and end points for a route, as well as the planned mode of transportation. */
+export interface DirectionsRequest
+{
+    /** The start point for routing directions. */
+    origin: string | Coordinate | Place
+
+    /** The end point for routing directions. */
+    destination: string | Coordinate | Place
+
+    /** A Boolean value that indicates whether the server should return multiple routes when they are available. */
+    requestsAlternateRoutes: boolean
+
+    /** The mode of transportation to which directions should apply. */
+    transportType: Directions.Transport
+}
+
+/** A single route between a requested start and end point. */
+export interface RouteStep
+{
+    /** An array of coordinate objects representing the path of the route segment. */
+    path: Coordinate[]
+
+    /** The written instructions for following the path represented by the step. */
+    instructions: string
+
+    /** The step distance in meters. */
+    distance: number
+
+    /** The transport type of the step. */
+    transportType: Directions.Transport
+}
+
+/** Information about a route, including step-by-step instructions, distance, and estimated travel time. */
+export interface Route
+{
+    /** An instance of a polyline overlay that represents the path of a route. */
+    polyline: PolylineOverlay
+
+    /**
+     * An array of coordinate objects representing the path of the route.
+     * @deprecated Use polyline instead of path.
+     */
+    path: Coordinate[][]
+
+    /** An array of steps that comprise the overall route. */
+    steps: RouteStep[]
+
+    /** The name assigned to the route. */
+    name: string
+
+    /** The route distance in meters. */
+    distance: number
+
+    /** The expected travel time in seconds. */
+    expectedTravelTime: number
+
+    /** The overall route transport type. */
+    transportType: Directions.Transport
+}
+
+/** The directions and estimated travel time returned for a route. */
+export interface DirectionsResponse
+{
+    /** The request object associated with this response. */
+    request: DirectionsRequest
+
+    /** An array of route objects. */
+    routes: Route[]
+}
+
+/** An object that provides directions and estimated travel time based on the route you provide. */
+export class Directions
+{
+    /** Creates a directions object with options that you may provide. */
+    constructor(options?: DirectionsConstructorOptions)
+
+    /** Retrieves directions and estimated travel time for the specified start and end points. */
+    route(request: DirectionsRequest, callback: (error?: Error, data?: DirectionsResponse) => void): number
+
+    /** Cancels a previous request for route directions. */
+    cancel(id: number): boolean
+}
+
+export namespace Directions
+{
+    /** The modes of transportation. */
+    export enum Transport
+    {
+        /** A constant identifying the mode of transportation as driving. */
+        Automobile = 'Automobile',
+
+        /** A constant identifying the mode of transportation as walking. */
+        Walking = 'Walking'
+    }
+}
+
 /** A tree structure containing annotations, overlays, and nested item collection objects. */
 export interface ItemCollection
 {
