@@ -3,6 +3,7 @@
 // Definitions by: Jon Nermut <asdeqlabs.com>, Will Ross <paxswill.com>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
+/** The JavaScript API for embedding Apple maps on your website. */
 export as namespace mapkit
 
 /* Non-exported utility types used within this file. */
@@ -87,6 +88,7 @@ export let language: string
 /** A build string that is used internally. It is helpful to include this in bug reports. */
 export const build: string
 
+/** Initialization options for MapKit JS. */
 export interface MapKitInitOptions
 {
     /**
@@ -95,9 +97,11 @@ export interface MapKitInitOptions
      */
     authorizationCallback: (done: (jwt: (string)) => void) => void
 
+    /** An ID that indicates the preferred language in which to display map labels, controls, directions, and other text. */
     language?: string
 }
 
+/** An object representing the latitude and longitude for a point on the Earth's surface. */
 export class Coordinate
 {
     /** Creates a coordinate object with the specified latitude and longitude. */
@@ -122,6 +126,7 @@ export class Coordinate
     toUnwrappedMapPoint(): MapPoint
 }
 
+/** An object that contains options for initializing a map's features. */
 export interface MapConstructorOptions
 {
     /** The visible area of the map defined in map units.  */
@@ -245,6 +250,7 @@ interface MapEventTypes extends SelectEventTypes, AnnotationEventWithoutSelectTy
 /** An embeddable interactive map that you add to a webpage. */
 export class Map extends MapKitEvented<MapEventTypes>
 {
+    /** Creates a map that you embed on a webpage, and initializes its display properties and other options. */
     constructor(parent?: string | HTMLElement, options?: MapConstructorOptions)
 
     /** A Boolean value that indicates if map rotation is available. */
@@ -406,6 +412,7 @@ export class Map extends MapKitEvented<MapEventTypes>
 
 export namespace Map 
 {
+    /** Constants representing the type of map to display. */
     export enum MapTypes
     {
         /** A satellite image of the area with road and road name information layered on top. */
@@ -422,6 +429,7 @@ export namespace Map
 
     }
 
+    /** Constants indicating the color scheme of the map. */
     export enum ColorSchemes
     {
         /** A constant indicating a light color scheme. */
@@ -431,6 +439,7 @@ export namespace Map
         Dark = 'Dark'
     }
 
+    /** Constants indicating the system of measurement displayed on the map. */
     export enum Distances
     {
         /** A constant indicating the measurement system is adaptive, and determined based on the map's language. */
@@ -444,7 +453,7 @@ export namespace Map
     }
 }
 
-
+/** Options that determine map parameters used when showing items. */
 export interface MapShowItemsOptions
 {
     /** A Boolean value that determines whether the map is animated as the map region changes to show the items. */
@@ -455,9 +464,9 @@ export interface MapShowItemsOptions
 
     /** Spacing that is added around the computed map region when showing items. */
     padding: Padding
-
 }
 
+/** A location on a map when the Earth's surface is projected onto a two-dimensional surface. */
 export class MapPoint
 {
     /** Initializes a mapkit.MapPoint object. */
@@ -477,7 +486,6 @@ export class MapPoint
 
     /** Returns a coorindate containing the latitude and longitude corresponding to a map point. */
     toCoordinate(): Coordinate
-
 }
 
 /** A pair of values in map units that define the width and height of a projected coordinate span. */
@@ -535,6 +543,7 @@ export class MapRect
     /** Indicates whether two map rectangles are equal. */
     equals(other: MapRect): boolean
 
+    // NOTE: Apple doesn't have a short description for this function in their documentation
     scale(scaleFactor: number, scaleCenter: MapPoint): MapRect
 
     /**  Returns the region that corresponds to a map rectangle. */
@@ -544,6 +553,7 @@ export class MapRect
 /** A rectangular area on a map defined by a center coordinate and a span, expressed in degrees of latitude and longitude. */
 export class CoordinateRegion
 {
+    /** A rectangular geographic region centered around a latitude and longitude coordinate. */
     constructor(center: Coordinate, span: CoordinateSpan)
 
     /** The center point of the region. */
@@ -568,7 +578,8 @@ export class CoordinateRegion
 /** The width and height of a map region. */
 export class CoordinateSpan
 {
-    constructor( latitudeDelta: number, longitudeDelta: number)
+    /** Creates a new coordinate span object with the specified latitude and longitude deltas. */
+    constructor(latitudeDelta: number, longitudeDelta: number)
 
     /** The amount of north-to-south distance (measured in degrees) to display on the map. */
     latitudeDelta: number
@@ -586,6 +597,7 @@ export class CoordinateSpan
 /** A rectangular area on a map, defined by coordinates of the rectangle's northeast and southwest corners. */
 export class BoundingRegion
 {
+    /** Creates a rectangular bounding region defined by the latitude and longitude coordinates of the rectangle's northeast and southwest corners. */
     constructor( northLatitude: number,  eastLongitude: number, southLatitude: number, westLongitude: number)
 
     /** The north latitude of the bounding region. */
@@ -607,16 +619,26 @@ export class BoundingRegion
     toCoordinateRegion(): CoordinateRegion
 }
 
+/** Initial values of the edge insets for padding. */
 export interface PaddingConstructorOptions
 {
+    /** The amount of padding, in CSS pixels, to inset the map from the bottom edge. */
     bottom: number
+
+    /** The amount of padding, in CSS pixels, to inset the map from the left edge. */
     left: number
+
+    /** The amount of padding, in CSS pixels, to inset the map from the right edge. */
     right: number
+
+    /** The amount of padding, in CSS pixels, to inset the map from the top edge. */
     top: number
 }
 
+/** The values that define content padding within the map view frame. */
 export class Padding
 {
+    /** Creates a padding object, and initializes its inset margin properties. */
     constructor(options?: PaddingConstructorOptions|number[] )
 
     /** The amount of padding, in CSS pixels, to inset the map from the bottom edge. */
@@ -632,6 +654,7 @@ export class Padding
     top: number
 }
 
+/** An object that contains options for initializing annotation features. */
 export interface AnnotationConstructorOptions
 {
     /** Data that you define that is assigned to the annotation. */
@@ -679,11 +702,13 @@ export interface AnnotationConstructorOptions
     /** The offset in CSS pixels of a callout from the top center of the element. */
     calloutOffset?: DOMPoint
 
-
+    /** An identifer used for grouping annotations into the same cluster. */
     clusteringIdentifier?: string
 
+    /** A mode that determines the shape of the collision frame. */
     collisionMode?: Annotation.CollisionMode
 
+    /** Accessibility text for the annotation. */
     accessibilityLabel?: string
 }
 
@@ -714,6 +739,7 @@ interface AnnotationEventTypes extends SelectEventTypes, AnnotationEventWithoutS
  */
 export class Annotation extends MapKitEvented<AnnotationEventTypes>
 {
+    /** Creates a new annotation given its location and initialization options. */
     constructor(coordinate: Coordinate, factory: Function, options?: AnnotationConstructorOptions)
 
     /** The annotation's coordinate. */
@@ -728,34 +754,58 @@ export class Annotation extends MapKitEvented<AnnotationEventTypes>
     /** The text to display as a subtitle, on the second line of an annotation's callout. */
     subtitle: string
 
+    /** An offset that changes the annotation's default anchor point. */
     anchorOffset: DOMPoint
+
+    /** A CSS animation that runs when the annotation appears on the map. */
     appearanceAnimation: string
+
+    /** A numeric hint the map uses to prioritize displaying annotations. */
     displayPriority: number
 
+    /** The desired dimensions of the annotation, in CSS pixels. */
     size: { height: number, width: number }
 
+    /** A Boolean value that determines if the annotation is visible or hidden. */
     visible: boolean
 
+    /** A Boolean value that determines if the annotation should be animated. */
     animates: boolean
+
+    /** A Boolean value that determines whether the user can drag the annotation. */
     draggable: boolean
+
+    /** A Boolean value indicating whether the annotation is selected. */
     selected: boolean
+
+    /** A Boolean value that determines whether the annotation responds to user interaction. */
     enabled: boolean
 
+    /** The map to which the annotation was added. */
     map: Map
 
     /** The annotation's element in the DOM. */
     element: HTMLElement
 
-    /** The callout delegate is an optional object that implements methods used to customize the appearance, content and animations of the callout appearing when the annotation is selected. */
+    /** A delegate that enables you to customize the annotation's callout. */
     callout: AnnotationCalloutDelegate
 
+    /** A Boolean value that determines whether an annotation's callout should be shown. */
     calloutEnabled: boolean
+
+    /** An offset that changes the annotation callout's default placement. */
     calloutOffset: DOMPoint
 
+    /** An array of annotations that are grouped together in a cluster. */
     memberAnnotations: Annotation[]
+
+    /** An identifer used for grouping annotations into the same cluster. */
     clusteringIdentifier: string
+
+    /** A mode that determines the shape of the collision frame. */
     collisionMode: Annotation.CollisionMode
 
+    /** Accessibility text for the annotation. */
     accessibilityLabel: string
 }
 
@@ -798,8 +848,10 @@ interface _DisplayAsset
     3?: string,
 }
 
+/** An annotation that displays a balloon-shaped marker at the designated location. */
 export class MarkerAnnotation extends Annotation
 {
+    /** Creates a marker annotation at the coordinate location with provided options. */
     constructor(coordinate: Coordinate, options?: MarkerAnnotationConstructorOptions)
 
     /** The fill color of the marker. */
@@ -824,6 +876,7 @@ export class MarkerAnnotation extends Annotation
     titleVisibility: FeatureVisibility
 }
 
+/** An object containing the options that initialize a marker annotation. */
 export interface MarkerAnnotationConstructorOptions extends AnnotationConstructorOptions
 {
     /** The fill color of the marker. */
@@ -846,38 +899,26 @@ export interface MarkerAnnotationConstructorOptions extends AnnotationConstructo
 
     /** A value that determines when the title is visible. */
     titleVisibility?: FeatureVisibility
-
 }
 
 /** A customized annotation with image resources that you provide. */
 export class ImageAnnotation extends Annotation
 {
+    /** Initializes an image annotation with a URL to its image and a coordinate. */
     constructor(coordinate: Coordinate, options?: ImageAnnotationConstructorOptions)
 
-    /** An object containing URLs for the image assets in multiple resolutions. 
-     * eg:
-     *     url: {
-     *          1: "foo.png",
-     *          2: "foo_2x.png",
-     *          3: "foo_3x.png"
-     *     }
-    */
     url: _DisplayAsset
+    /** An object containing URLs for the image assets in multiple resolutions. */
 }
 
+/** An object containing options for initializing an image annotation. */
 export interface ImageAnnotationConstructorOptions extends AnnotationConstructorOptions
 {
-    /** An object containing URLs for the image assets in multiple resolutions. 
-     * eg:
-     *     url: {
-     *          1: "foo.png",
-     *          2: "foo_2x.png",
-     *          3: "foo_3x.png"
-     *     }
-    */
     url: _DisplayAsset
+    /** An object containing URLs for the image assets in multiple resolutions. */
 }
 
+/** Constants indicating the visibility of different adaptive map features. */
 export enum FeatureVisibility
 {
     /** Indicates that a map feature adapts to the current map state. */
@@ -886,9 +927,8 @@ export enum FeatureVisibility
     /** Indicates that a map feature is always hidden */
     Hidden = 'Hidden',
 
-    /** Indicates that a map feature is always visible.n */
+    /** Indicates that a map feature is always visible. */
     Visible = 'Visible'
-
 }
 
 export interface AnnotationCalloutDelegate
@@ -916,6 +956,7 @@ declare enum LineJoinStyle
     Bevel = "bevel"
 }
 
+/** Initial values of options for applying style to overlays. */
 export interface StyleConstructorOptions
 {
     /** The fill color of a shape. */
@@ -952,6 +993,7 @@ export interface StyleConstructorOptions
 /** A set of observable attributes for overlays, including color and opacity of stroke and fill, and line styles. */
 export class Style
 {
+    /** Creates and initializes a style object. */
     constructor(options?: StyleConstructorOptions)
 
     /** The fill color of a shape. */
@@ -1015,6 +1057,7 @@ export abstract class Overlay extends MapKitEvented<OverlayEventTypes>
     map: Map
 }
 
+/** A dictionary of options that determine an overlay's data and if it is visible, enabled, and selected. */
 export interface OverlayOptions
 {
     /** Custom data to associate with this overlay. */
@@ -1040,6 +1083,7 @@ export interface OverlayOptions
 /** A circular overlay with a configurable radius, centered on a specific geographic coordinate. */
 export class CircleOverlay extends Overlay
 {
+    /** Creates a circle overlay with a center coordinate, radius, and style options. */
     constructor(coordinate: Coordinate, radius: number, options?: OverlayOptions)
 
     /** The coordinate of the circle overlay's center. */
@@ -1052,6 +1096,7 @@ export class CircleOverlay extends Overlay
 /** An overlay made up of connected line segments that do not form a closed shape. */
 export class PolylineOverlay extends Overlay
 {
+    /** Creates a polyline overlay with coordinate points and style options. */
     constructor(points: Coordinate[], options?: OverlayOptions)
 
     /** An array of coordinate points that define the polyline overlay's shape. */
@@ -1061,6 +1106,7 @@ export class PolylineOverlay extends Overlay
 /** An overlay made up of one or more points, forming a closed shape. */
 export class PolygonOverlay extends Overlay
 {
+    /** Creates a polygon overlay with an array of points and style options. */
     constructor(points: Coordinate[], options?: OverlayOptions)
     constructor(points: Coordinate[][], options?: OverlayOptions)
 
@@ -1073,6 +1119,7 @@ export class PolygonOverlay extends Overlay
     points: Coordinate[][] | Coordinate[]
 }
 
+/** Attributes used when initializing a tile overlay, including minimum and maximum zoom, opacity, and custom data. */
 export interface TileOverlayConstructorOptions
 {
     /** Custom data used to populate the URL template. */
@@ -1105,6 +1152,7 @@ interface TileOverlayEventTypes
 /** An overlay that covers an area of the map with bitmap tiles. */
 export class TileOverlay extends MapKitEvented<TileOverlayEventTypes>
 {
+    /** Creates a tile overlay with a URL template and style options. */
     constructor(urlTemplate: string, options?: TileOverlayConstructorOptions)
     constructor(urlTemplate: (x: number, y: number, z: number, scale: number, data: any) => string, options?: TileOverlayConstructorOptions)
     
@@ -1127,6 +1175,7 @@ export class TileOverlay extends MapKitEvented<TileOverlayEventTypes>
     minimumZ: number | null
 }
 
+/** Initialization options for geocoder objects. */
 export interface GeocoderConstructorOptions
 {
     /** An initial Boolean value that indicates whether the geocoder should return results near the user's current location. */
@@ -1136,11 +1185,14 @@ export interface GeocoderConstructorOptions
     language?: string
 }
 
+/** The response from a geocoder lookup or reverse lookup. */
 export interface GeocodeResponse
 {
+    /** An array of places returned from a geocoder lookup or reverse lookup. */
     results: Place[]
 }
 
+/** Options that constrain geocoder lookup results to a specific area or set a language for results. */
 export interface GeocoderLookupOptions
 {
     /** Coordinates used to constrain the lookup results. */
@@ -1156,11 +1208,14 @@ export interface GeocoderLookupOptions
     region?: CoordinateRegion
 }
 
+/** An option that constrains reverse lookup results to a specific language. */
 export interface GeocoderReverseLookupOptions
 {
+    /** The language in which to display the reverse lookup results. */
     language?: string
 }
 
+/** A place object returned from a geocoder lookup or reverse lookup. */
 export interface Place
 {
     /** The name of this place. */
@@ -1179,8 +1234,10 @@ export interface Place
     region: CoordinateRegion
 }
 
+/** A geocoder that converts human-readable addresses to geographic coordinates and vice versa. */
 export class Geocoder
 {
+    /** Initialize a geocoder object and set optional language and user location properties. */
     constructor(options?: GeocoderConstructorOptions)
 
     /* A Boolean value that indicates whether the geocoder should return results near the user's current location. */
@@ -1199,6 +1256,7 @@ export class Geocoder
     cancel(id: number): boolean
 }
 
+/** Options that you may provide when creating a search object. */
 export interface SearchConstructorOptions
 {
     /** A map coordinate that provides a hint for the geographic area to search. */
@@ -1214,6 +1272,7 @@ export interface SearchConstructorOptions
     region?: CoordinateRegion
 }
 
+/** The result of a search, including the original search query, the bounding region, and a list of places that match the query. */
 export interface SearchResponse
 {
     /**
@@ -1232,6 +1291,7 @@ export interface SearchResponse
     boundingRegion?: CoordinateRegion
 }
 
+/** Options you can provide when performing a search. */
 export interface SearchOptions
 {
     /** A map coordinate that provides a hint for the geographic area to search. This overrides the coordinate provided to the mapkit.Search constructor.  */
@@ -1283,6 +1343,7 @@ export interface SearchDelegate
 /**  A geocoding request can be cancelled by ID. */
 export class Search
 {
+    /** Creates a search object with optional initial values that you provide. */
     constructor(options?: SearchConstructorOptions)
 
     /** Retrieves the results of a search query. */
@@ -1295,6 +1356,7 @@ export class Search
     cancel(id: number): boolean
 }
 
+/** A tree structure containing annotations, overlays, and nested item collection objects. */
 export interface ItemCollection
 {
     /** The raw GeoJSON data. */
@@ -1307,6 +1369,7 @@ export interface ItemCollection
     items: (Annotation | Overlay | ItemCollection)[]
 }
 
+/** A delegate object that controls a GeoJSON import in order to override default behavior and provide custom style. */
 export interface GeoJSONDelegate
 {
     /** Overrides a feature. */
